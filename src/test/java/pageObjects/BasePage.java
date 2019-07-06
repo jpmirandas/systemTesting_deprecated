@@ -26,22 +26,36 @@ public class BasePage {
         js.executeScript("return jQuery.active == 0");
     }
 
-    protected void waitForElementToBeClickable(By element){
-        getWebDriverWait().until(ExpectedConditions.elementToBeClickable(element));
+    protected void waitForElementToBeClickable(By locator){
+        getWebDriverWait().until(ExpectedConditions.elementToBeClickable(locator));
     }
 
-    protected WebDriverWait getWebDriverWait(){
-        WebDriverWait wait = new WebDriverWait(this.getWebDriver(), TIMEOUT_IN_SECONDS);
+    protected void waitForElementToBeDisplayed(By locator){
+        WebElement element = getWebDriver().findElement(locator);
+        getWebDriverWait().until(ExpectedConditions.visibilityOf(element));
+    }
+
+    public WebDriverWait getWebDriverWait(){
+        WebDriverWait wait = new WebDriverWait(getWebDriver(), TIMEOUT_IN_SECONDS);
         return wait;
     }
 
-    protected void click(By element){
-        getWebDriver().findElement(element).click();
+    protected void click(By locator){
+        getWebDriver().findElement(locator).click();
     }
 
-    protected void type(By element, String text){
-        WebElement field = getWebDriver().findElement(element);
+    protected void type(By locator, String text){
+        WebElement field = getWebDriver().findElement(locator);
         field.clear();
         field.sendKeys(text);
+    }
+
+    protected void closeWindow(){
+        getWebDriver().quit();
+    }
+
+    // TODO
+    protected boolean isElementDisplayed(By locator){
+        return true;
     }
 }
